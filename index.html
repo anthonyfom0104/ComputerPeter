@@ -128,7 +128,7 @@ section{padding:5rem 5%}
 .step-title{font-weight:700;font-size:0.9rem;color:var(--white);margin-bottom:0.35rem;font-family:'Inter',sans-serif}
 
 /* PACKAGES */
-.pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:1.4rem;margin-top:2.75rem}
+.pkg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(295px,100%),1fr));gap:1.4rem;margin-top:2.75rem}
 .pkg-card{background:var(--bg2);border:1px solid var(--border-light);border-radius:14px;transition:box-shadow 0.2s,border-color 0.2s}
 .pkg-card:hover{box-shadow:0 8px 32px rgba(184,29,44,0.2)}
 .pkg-card.featured{border-color:var(--purple)}
@@ -775,6 +775,7 @@ footer{
   .goal-inner,
   .contact-grid,
   .services-grid,
+  .pkg-grid{grid-template-columns:1fr !important;}
   .pkg-grid,
   .test-grid,
   .team-grid,
@@ -912,15 +913,28 @@ footer{
   /* Purchase modal inline preview cards */
   .preview-card{ display:none; }
 
-  /* Misc inline grids */
-  div[style*="display:grid"][style*="grid-template-columns:1fr 1fr"]{
+  /* Misc inline grids — targeted, not overly broad */
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:4rem"],
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:2.5rem"],
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:2rem"],
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:0.7rem"],
+  div[style*="grid-template-columns:1fr 1fr"][style*="gap:0.75rem"]{
     grid-template-columns:1fr !important;
   }
-  div[style*="display:grid"][style*="grid-template-columns:repeat(2"]{
+  div[style*="grid-template-columns:repeat(2"]{
     grid-template-columns:1fr !important;
   }
-  div[style*="display:grid"][style*="grid-template-columns:repeat(3"]{
+  div[style*="grid-template-columns:repeat(3"]{
     grid-template-columns:1fr !important;
+  }
+
+  /* Demo cards — stack text on top, hide preview pane on mobile */
+  div[style*="grid-template-columns:1fr 1fr"][style*="min-height"]{
+    grid-template-columns:1fr !important;
+    min-height:unset !important;
+  }
+  div[style*="grid-template-columns:1fr 1fr"][style*="min-height"] > div:last-child{
+    display:none !important;
   }
 
   /* Founders grid text */
