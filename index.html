@@ -34,8 +34,8 @@ p{color:var(--text2);font-size:0.94rem;line-height:1.72}
 a{text-decoration:none;color:inherit}
 
 /* PAGE SYSTEM */
-.page{display:none;min-height:100vh;isolation:isolate}
-.page.active{display:block}
+.page{display:none;isolation:isolate}
+.page.active{display:block;min-height:100vh}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(8,6,15,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border-light);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between}
@@ -357,7 +357,6 @@ body{
     radial-gradient(1400px 700px at 50% 100%, rgba(184,29,44,0.28), transparent 62%),
     radial-gradient(900px 500px at 50% 0%, rgba(230,57,70,0.06), transparent 60%),
     var(--bg);
-  background-attachment: fixed;
 }
 h1,h2,h3{ letter-spacing:-0.025em; }
 section h2{ font-size:clamp(1.9rem,3.4vw,2.9rem); }
@@ -561,7 +560,7 @@ nav{
 /* === HERO: keynote stage === */
 .hero{
   min-height:92vh !important;
-  padding:7rem 5% 5rem !important;
+  padding:6rem 5% 4rem !important;
   background:
     radial-gradient(ellipse 80% 60% at 50% 100%, rgba(184,29,44,0.35), transparent 60%),
     radial-gradient(ellipse 60% 40% at 50% 0%,   rgba(230,57,70,0.10), transparent 60%),
@@ -622,7 +621,7 @@ nav{
 .btn-outline:hover{ background:rgba(255,255,255,0.08) !important; border-color:rgba(255,255,255,0.4) !important; }
 
 /* === SECTIONS: keynote slides === */
-section{ padding:7rem 5% !important; }
+section{ padding:5rem 5% !important; background:#000; }
 section h2{
   font-size:clamp(2.2rem,5vw,4rem) !important;
   font-weight:700 !important; letter-spacing:-0.045em !important; line-height:1.05 !important;
@@ -699,7 +698,7 @@ section h2{
 /* Page heroes / orbs */
 .services-hero,.packages-hero,.about-hero,.contact-hero{
   background:#000 !important; border-bottom:1px solid rgba(255,255,255,0.06) !important;
-  padding:9rem 5% 5rem !important;
+  padding:6rem 5% 4rem !important;
 }
 .page-orb{
   background:radial-gradient(circle, var(--crimson), transparent 70%) !important;
@@ -765,7 +764,7 @@ footer{
   section{ padding:4rem 1.5rem !important; }
   section h2{ font-size:clamp(1.8rem,6vw,2.6rem) !important; }
   .services-hero,.packages-hero,.about-hero,.contact-hero{
-    padding:7rem 1.5rem 3rem !important;
+    padding:6rem 1.5rem 2.5rem !important;
   }
 
   /* Grids → single column */
@@ -848,7 +847,7 @@ footer{
   section{ padding:3.5rem 1.25rem !important; }
   section h2{ font-size:clamp(1.6rem,7vw,2.2rem) !important; letter-spacing:-0.03em !important; }
   .services-hero,.packages-hero,.about-hero,.contact-hero{
-    padding:5.5rem 1.25rem 2.5rem !important;
+    padding:5rem 1.25rem 2rem !important;
   }
 
   /* Buttons - full width on small screens */
@@ -1006,6 +1005,7 @@ footer{
   <button onclick="navTo('packages')">Packages</button>
   <button onclick="navTo('about')">About</button>
   <button onclick="navTo('contact')">Contact</button>
+  <button onclick="navTo('demos')">Demos</button>
   <button class="mob-cta" onclick="navTo('packages')">Get Started</button>
 </div>
 
@@ -1725,7 +1725,7 @@ footer{
 </div>
 
 <div class="page" id="page-demos">
-  <div style="background:var(--bg);min-height:100vh;padding:5rem 5% 6rem">
+  <div style="background:#000;min-height:100vh;padding:5rem 5% 6rem">
     <div class="container">
       <span class="section-label" style="color:#e63946">Demo Websites</span>
       <h1 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(2.2rem,5vw,3.4rem);font-weight:800;color:#fff;margin:0.5rem 0 0.75rem;line-height:1.1">See What We Build</h1>
@@ -2302,7 +2302,7 @@ function submitContact(e){
 (function(){
   function initReveal(root){
     root = root || document;
-    var sel = 'section, .card, .test-card, .pkg-card, .service-card, .maint-card, .founder-card, .why-item, .process-step, .cta-band, .hero-stats, .hero-badge, .hero h1, .hero-sub, .hero-btns';
+    var sel = '.card, .test-card, .pkg-card, .service-card, .maint-card, .founder-card, .why-item, .process-step, .cta-band, .hero-stats, .hero-badge, .hero h1, .hero-sub, .hero-btns';
     var els = root.querySelectorAll(sel);
     els.forEach(function(el, i){
       if(el.classList.contains('reveal')) return;
@@ -2318,7 +2318,7 @@ function submitContact(e){
     entries.forEach(function(e){
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  }, { threshold: 0.05, rootMargin: '0px 0px 0px 0px' });
 
   function observeAll(){
     initReveal();
@@ -2332,8 +2332,9 @@ function submitContact(e){
       orig.apply(this, arguments);
       var pg = document.getElementById('page-'+n);
       if(pg){
-        pg.querySelectorAll('.reveal').forEach(function(el){ el.classList.remove('in'); });
-        setTimeout(observeAll, 30);
+        // Immediately show all elements, then let observer enhance with animation
+        pg.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+        setTimeout(observeAll, 120);
       }
     };
   }
